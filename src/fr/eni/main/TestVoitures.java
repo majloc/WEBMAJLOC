@@ -168,7 +168,18 @@ public class TestVoitures {
 		}
 		
 		
+		System.out.println("\nVoiture par critere ");
+		String[]criteres = {"monospace","diesel","Renault","",""}; 
+		listeV = VoitureDAO.findAllCriteres(criteres);
+		for (Voiture voiture : listeV) {
+			System.out.println(voiture);
+		}
+		
+		
+		
 		DAOUtil.close();
 	}
 
+
+	
 }

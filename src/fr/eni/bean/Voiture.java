@@ -3,6 +3,15 @@ package fr.eni.bean;
 import java.io.Serializable;
 import java.util.List;
 
+
+
+
+
+
+
+
+
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +21,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+
+
+
 
 
 @Entity
@@ -33,7 +46,7 @@ public class Voiture implements Serializable{
 	private int nbPlace;
 	@ElementCollection(targetClass=String.class)
 	private List<String> photos;
-	@ManyToOne
+	@ManyToOne (cascade = CascadeType.PERSIST)
 	private Type type;
 	@ManyToOne
 	private Energie energie;
@@ -137,6 +150,12 @@ public class Voiture implements Serializable{
 	}
 	public int getId() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "Voiture , plaque=" + plaque
+				+ ", marque=" + marque + ", modele=" + modele + ", type=" + type + ", energie=" + energie + "]";
 	}
 	
 	

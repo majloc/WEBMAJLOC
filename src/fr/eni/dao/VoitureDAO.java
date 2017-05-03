@@ -9,6 +9,8 @@ import javax.persistence.TypedQuery;
 
 import fr.eni.bean.Agence;
 import fr.eni.bean.Energie;
+import fr.eni.bean.EnumEnergie;
+import fr.eni.bean.EnumType;
 import fr.eni.bean.Type;
 import fr.eni.bean.Voiture;
 import fr.eni.util.DAOUtil;
@@ -45,8 +47,8 @@ public class VoitureDAO {
 						break;
 				}
 				
-				reqBase+= critere +" = :" +criteres[i]; 
-				if (i < criteres.length && criteres[i+1] != null){
+				reqBase+= critere +" = :" +critere; 
+				if (i < criteres.length && !("".equals(criteres[i+1]))){
 					reqBase+= " AND ";
 				}		
 			}
@@ -55,20 +57,23 @@ public class VoitureDAO {
 			EntityManager em=DAOUtil.getEntityManager();
 			TypedQuery<Voiture> tqv= em.createQuery(reqBase, Voiture.class);
 			
+		
 			
-			if (criteres[0] != null ){
-				tqv.setParameter("type", criteres[0]);
+			if (!("".equals(criteres[0]))){
+				Type typev = TypeDAO.findByLibelle(criteres[0]);
+				tqv.setParameter("type", typev);
 			}
-			if (criteres[1] != null ){
-				tqv.setParameter("energie", criteres[1]);
+			if (!("".equals(criteres[1]))){
+				Energie enerv = EnergieDAO.findByLibelle((criteres[1]));
+				tqv.setParameter("energie", enerv);
 			}
-			if (criteres[2] != null ){
+			if (!("".equals(criteres[2]))){
 				tqv.setParameter("marque", criteres[2]);
 			}
-			if (criteres[3] != null ){
+			if (!("".equals(criteres[3]))){
 				tqv.setParameter("modele", criteres[3]);
 			}
-			if (criteres[4] != null ){
+			if (!("".equals(criteres[4]))){
 				tqv.setParameter("immat", criteres[4]);
 			}
 			

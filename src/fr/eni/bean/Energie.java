@@ -14,6 +14,8 @@ import javax.persistence.metamodel.StaticMetamodel;
 public class Energie implements Serializable{
 
 
+	
+
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -52,6 +54,9 @@ public class Energie implements Serializable{
 		return id;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Energie [energie=" + energie + "]";
+	}
 	
 }

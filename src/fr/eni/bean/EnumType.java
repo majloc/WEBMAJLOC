@@ -1,5 +1,7 @@
 package fr.eni.bean;
 
+
+
 public enum EnumType {
 
 	citadine,

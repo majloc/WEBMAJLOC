@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import fr.eni.bean.Agence;
+import fr.eni.bean.EnumType;
 import fr.eni.bean.Type;
 import fr.eni.util.DAOUtil;
 
@@ -27,6 +28,32 @@ public class TypeDAO {
 		return DAOUtil
 				.getEntityManager()
 				.find(Type.class, id);
+	}
+	
+	public static Type findByLibelle(String libelle){
+		EnumType enumtype = null;
+		
+		switch(libelle){
+		
+		case "berline":
+			enumtype = EnumType.berline;
+			break;
+		case "citadine":
+			enumtype = EnumType.citadine;
+			break;
+		case "monospace":
+			enumtype = EnumType.monospace;
+			break;
+		case "utilitaire":
+			enumtype = EnumType.utilitaire;
+			break;
+			
+		}
+		
+		String requete = "SELECT t FROM Type t WHERE type =:type";
+		
+		return DAOUtil.getEntityManager().createQuery(requete,Type.class).setParameter("type", enumtype).getSingleResult();
+		
 	}
 	
 	
