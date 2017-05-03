@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="MAJLOCWEBSERVICE" transaction-type="RESOURCE_LOCAL">
+	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+	
+	<class>fr.eni.bean.Agence</class>
+	<class>fr.eni.bean.Client</class>
+	<class>fr.eni.bean.Energie</class>
+	<class>fr.eni.bean.Location</class>
+	<class>fr.eni.bean.Type</class>
+	<class>fr.eni.bean.Voiture</class>
+	
+	
+	<properties>
+	
+	<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+	<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databasename=MAJLOC"/>
+	<property name="javax.persistence.jdbc.user" value="sa"/>
+	<property name="javax.persistence.jdbc.password" value="Pa$$w0rd"/>
+	
+	<property name="hibernate.show_sql" value="true"/>
+	<property name="hibernate.hbm2ddl.auto" value="create"/>
+	
+	</properties>
+	
+	</persistence-unit>
+</persistence>
