@@ -1,9 +1,11 @@
 package fr.eni.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import fr.eni.bean.Agence;
 import fr.eni.bean.Energie;
@@ -14,7 +16,67 @@ import fr.eni.util.DAOUtil;
 
 public class VoitureDAO {
 	
+		public static List<Voiture> findAllCriteres(String[] criteres){
+		String reqBase = "SELECT v FROM Voiture v WHERE ";
+		
+		String critere="";		
+		if (("".equals(criteres[0])) && ("".equals(criteres[1])) && ("".equals(criteres[2])) && ("".equals(criteres[3])) && ("".equals(criteres[4]))){
+			return VoitureDAO.findAll();
+		}
+		
+		for (int i = 0; i < criteres.length; i++) {
+			if (!("".equals(criteres[i]))){
+				
+				switch (i) {
+					case 0 : 
+						critere = "type";
+						break;
+					case 1 : 
+						critere = "energie";
+						break;
+					case 2 : 
+						critere = "marque";
+						break;
+					case 3 : 
+						critere = "modele";
+						break;	
+					case 4 : 
+						critere = "immat";
+						break;
+				}
+				
+				reqBase+= critere +" = :" +criteres[i]; 
+				if (i < criteres.length && criteres[i+1] != null){
+					reqBase+= " AND ";
+				}		
+			}
+		}
 
+			EntityManager em=DAOUtil.getEntityManager();
+			TypedQuery<Voiture> tqv= em.createQuery(reqBase, Voiture.class);
+			
+			
+			if (criteres[0] != null ){
+				tqv.setParameter("type", criteres[0]);
+			}
+			if (criteres[1] != null ){
+				tqv.setParameter("energie", criteres[1]);
+			}
+			if (criteres[2] != null ){
+				tqv.setParameter("marque", criteres[2]);
+			}
+			if (criteres[3] != null ){
+				tqv.setParameter("modele", criteres[3]);
+			}
+			if (criteres[4] != null ){
+				tqv.setParameter("immat", criteres[4]);
+			}
+			
+			return tqv.getResultList();
+			
+	}
+		
+	
 	public static List<Voiture> findAll(){
 		String req = "SELECT v FROM Voiture v";
 		return DAOUtil
@@ -33,11 +95,11 @@ public class VoitureDAO {
 	
 	
 	public static List<Voiture> findAllByAgence(Agence agence){
-		String req = "SELECT v FROM Voiture v WHERE agence = :var";
+		String req = "SELECT v FROM Voiture v WHERE agence = :agence";
 		return DAOUtil
 				.getEntityManager()
 				.createQuery(req, Voiture.class)
-				.setParameter("var", agence)
+				.setParameter("agence", agence)
 				.getResultList();
 		
 	}
@@ -53,6 +115,10 @@ public class VoitureDAO {
 				.getResultList();
 		
 	}
+	
+	
+
+	
 	
 	public static List<Voiture> findAllByEnergie(Energie energie, Agence agence){
 		String req = "SELECT v FROM Voiture v WHERE energie = :var AND agence = :var1";

@@ -13,7 +13,7 @@ import fr.eni.util.DAOUtil;
 public class ClientDAO {
 	
 
-	public static List<Client> findAll(){
+	public static List<Client> findAllByAgence(Agence a){
 		String req = "SELECT c FROM Client c";
 		return DAOUtil
 				.getEntityManager()
