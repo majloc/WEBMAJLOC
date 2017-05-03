@@ -10,9 +10,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 
 @Entity
 @Table(name = "VOITURE")
+@XmlRootElement (name = "voiture")
 public class Voiture implements Serializable{
 
 
@@ -21,6 +25,7 @@ public class Voiture implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	private double prixParJour;
 	private String plaque;
 	private String marque;
@@ -82,6 +87,7 @@ public class Voiture implements Serializable{
 	public double getPrixParJour() {
 		return prixParJour;
 	}
+	@XmlElement
 	public void setPrixParJour(double prixParJour) {
 		this.prixParJour = prixParJour;
 	}
@@ -94,12 +100,14 @@ public class Voiture implements Serializable{
 	public String getMarque() {
 		return marque;
 	}
+	@XmlElement
 	public void setMarque(String marque) {
 		this.marque = marque;
 	}
 	public String getModele() {
 		return modele;
 	}
+	@XmlElement
 	public void setModele(String modele) {
 		this.modele = modele;
 	}
