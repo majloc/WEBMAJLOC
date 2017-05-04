@@ -14,7 +14,7 @@
 	<properties>
 	
 	<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
-	<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databasename=MAJLOC"/>
+	<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://10.4.140.24:1433;databasename=MAJLOC"/>
 	<property name="javax.persistence.jdbc.user" value="sa"/>
 	<property name="javax.persistence.jdbc.password" value="Pa$$w0rd"/>
 	
