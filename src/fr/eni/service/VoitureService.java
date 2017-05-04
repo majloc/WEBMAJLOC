@@ -18,15 +18,15 @@ public class VoitureService {
 	
 @GET
 @Path("/allcars")
-@Produces(MediaType.APPLICATION_XML)
+@Produces(MediaType.APPLICATION_JSON)
 public List<Voiture> getall(){
 	return VoitureDAO.findAll();
 }
 	
 @GET
-@Path("/carsbycriteres/{criteres}")
-@Produces(MediaType.APPLICATION_XML)
-public List<Voiture> getAllByCritere (@QueryParam(value = "criteres") String[] criteres){
+@Path("/carsbycriteres")
+@Produces(MediaType.APPLICATION_JSON)
+public List<Voiture> getAllByCritere(@QueryParam("criteres") String criteres){
 	return VoitureDAO.findAllCriteres(criteres);
 }
 

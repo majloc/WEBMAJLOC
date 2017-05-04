@@ -18,16 +18,18 @@ import fr.eni.util.DAOUtil;
 
 public class VoitureDAO {
 	
-		public static List<Voiture> findAllCriteres(String[] criteres){
+		public static List<Voiture> findAllCriteres(String criterelist){
+			
+		String[] criteres = criterelist.split(";");	
 		String reqBase = "SELECT v FROM Voiture v WHERE ";
 		
 		String critere="";		
-		if (("".equals(criteres[0])) && ("".equals(criteres[1])) && ("".equals(criteres[2])) && ("".equals(criteres[3])) && ("".equals(criteres[4]))){
+		if (("null".equals(criteres[0])) && ("null".equals(criteres[1])) && ("null".equals(criteres[2])) && ("null".equals(criteres[3])) && ("null".equals(criteres[4]))){
 			return VoitureDAO.findAll();
 		}
 		
 		for (int i = 0; i < criteres.length; i++) {
-			if (!("".equals(criteres[i]))){
+			if (!("null".equals(criteres[i]))){
 				
 				switch (i) {
 					case 0 : 
@@ -48,7 +50,7 @@ public class VoitureDAO {
 				}
 				
 				reqBase+= critere +" = :" +critere; 
-				if (i < criteres.length && !("".equals(criteres[i+1]))){
+				if (i < criteres.length && !("null".equals(criteres[i+1]))){
 					reqBase+= " AND ";
 				}		
 			}
@@ -59,21 +61,21 @@ public class VoitureDAO {
 			
 		
 			
-			if (!("".equals(criteres[0]))){
+			if (!("null".equals(criteres[0]))){
 				Type typev = TypeDAO.findByLibelle(criteres[0]);
 				tqv.setParameter("type", typev);
 			}
-			if (!("".equals(criteres[1]))){
+			if (!("null".equals(criteres[1]))){
 				Energie enerv = EnergieDAO.findByLibelle((criteres[1]));
 				tqv.setParameter("energie", enerv);
 			}
-			if (!("".equals(criteres[2]))){
+			if (!("null".equals(criteres[2]))){
 				tqv.setParameter("marque", criteres[2]);
 			}
-			if (!("".equals(criteres[3]))){
+			if (!("null".equals(criteres[3]))){
 				tqv.setParameter("modele", criteres[3]);
 			}
-			if (!("".equals(criteres[4]))){
+			if (!("null".equals(criteres[4]))){
 				tqv.setParameter("immat", criteres[4]);
 			}
 			
