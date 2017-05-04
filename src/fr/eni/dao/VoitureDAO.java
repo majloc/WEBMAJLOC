@@ -9,8 +9,6 @@ import javax.persistence.TypedQuery;
 
 import fr.eni.bean.Agence;
 import fr.eni.bean.Energie;
-import fr.eni.bean.EnumEnergie;
-import fr.eni.bean.EnumType;
 import fr.eni.bean.Type;
 import fr.eni.bean.Voiture;
 import fr.eni.util.DAOUtil;
@@ -100,12 +98,18 @@ public class VoitureDAO {
 	// methode qui renvoie soit les véhicules loués soit les véhicules dispos selon le statut
 	public static List<Voiture> findByDispo(String statut){
 		
-		Boolean loue = false;
+		Boolean loue= false;
 		
-		if ("true".equals(statut)){
-			loue = true;
+		switch (statut) {
+			case "false":
+				loue = false;
+				break;
+			
+			case "true":
+				loue = true;
+				break;
 		}
-	
+		
 		String reqBase = "SELECT v FROM Voiture v WHERE loue = :loue ";
 		
 		return	DAOUtil.getEntityManager()
@@ -146,9 +150,6 @@ public class VoitureDAO {
 	}
 	
 	
-
-	
-	
 	public static List<Voiture> findAllByEnergie(Energie energie, Agence agence){
 		String req = "SELECT v FROM Voiture v WHERE energie = :var AND agence = :var1";
 		return DAOUtil
@@ -160,7 +161,6 @@ public class VoitureDAO {
 		
 	}	
 	
-
 
 	public static void insert(Voiture v) throws Exception{
 		EntityManager em = DAOUtil.getEntityManager();
