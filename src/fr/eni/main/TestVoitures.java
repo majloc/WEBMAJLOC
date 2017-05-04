@@ -75,9 +75,9 @@ public class TestVoitures {
 		List<String> listePhotos= new ArrayList<>();
 		listePhotos.add("photo1");
 		listePhotos.add("photo2");
-		Voiture v1 = new Voiture(35.8,"AA-999-AA", "Renault", "Scenic", 7, listePhotos, t3, e1, a); 
-		Voiture v2 = new Voiture(23,"BB-111-BB", "Renault", "Clio", 5, listePhotos, t2, e3, a2); 
-		Voiture v3 = new Voiture(58.9,"CC-222-CC", "Lexus", "GS 300h", 5, listePhotos, t1, e4, a); 
+		Voiture v1 = new Voiture(35.8,"AA-999-AA", "Renault", "Scenic", 7, false, listePhotos, t3, e1, a); 
+		Voiture v2 = new Voiture(23,"BB-111-BB", "Renault", "Clio", 5, false, listePhotos, t2, e3, a2); 
+		Voiture v3 = new Voiture(58.9,"CC-222-CC", "Lexus", "GS 300h", 5, false, listePhotos, t1, e4, a); 
 		
 		try {
 			VoitureDAO.insert(v1);

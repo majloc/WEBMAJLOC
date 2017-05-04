@@ -11,6 +11,9 @@ import java.util.List;
 
 
 
+
+
+
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -21,10 +24,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-
-
-
 
 
 @Entity
@@ -44,40 +43,37 @@ public class Voiture implements Serializable{
 	private String marque;
 	private String modele;
 	private int nbPlace;
+	private boolean loue;
 	@ElementCollection(targetClass=String.class)
 	private List<String> photos;
-	@ManyToOne (cascade = CascadeType.PERSIST)
+	@ManyToOne
 	private Type type;
 	@ManyToOne
 	private Energie energie;
 	@ManyToOne
 	private Agence agence;
 	
-	
-	
-	
 	public Voiture() {
 		super();
 	}
-	
 	public Voiture(double prixParJour, String plaque, String marque,
-			String modele, int nbPlace, List<String> photos, Type type,
-			Energie energie, Agence agence) {
+			String modele, int nbPlace, boolean loue, List<String> photos,
+			Type type, Energie energie, Agence agence) {
 		super();
 		this.prixParJour = prixParJour;
 		this.plaque = plaque;
 		this.marque = marque;
 		this.modele = modele;
 		this.nbPlace = nbPlace;
+		this.loue = loue;
 		this.photos = photos;
 		this.type = type;
 		this.energie = energie;
 		this.agence = agence;
 	}
-	
 	public Voiture(int id, double prixParJour, String plaque, String marque,
-			String modele, int nbPlace, List<String> photos, Type type,
-			Energie energie, Agence agence) {
+			String modele, int nbPlace, boolean loue, List<String> photos,
+			Type type, Energie energie, Agence agence) {
 		super();
 		this.id = id;
 		this.prixParJour = prixParJour;
@@ -85,12 +81,12 @@ public class Voiture implements Serializable{
 		this.marque = marque;
 		this.modele = modele;
 		this.nbPlace = nbPlace;
+		this.loue = loue;
 		this.photos = photos;
 		this.type = type;
 		this.energie = energie;
 		this.agence = agence;
 	}
-	
 	public Agence getAgence() {
 		return agence;
 	}
@@ -130,12 +126,20 @@ public class Voiture implements Serializable{
 	public void setNbPlace(int nbPlace) {
 		this.nbPlace = nbPlace;
 	}
+		
+	public boolean isLoue() {
+		return loue;
+	}
+	public void setLoue(boolean loue) {
+		this.loue = loue;
+	}
 	public List<String> getPhotos() {
 		return photos;
 	}
 	public void setPhotos(List<String> photos) {
 		this.photos = photos;
 	}
+		
 	public Type getType() {
 		return type;
 	}
@@ -151,12 +155,15 @@ public class Voiture implements Serializable{
 	public int getId() {
 		return id;
 	}
-
 	@Override
 	public String toString() {
-		return "Voiture , plaque=" + plaque
-				+ ", marque=" + marque + ", modele=" + modele + ", type=" + type + ", energie=" + energie + "]";
+		return String
+				.format("Voiture [id=%s, prixParJour=%s, plaque=%s, marque=%s, modele=%s, nbPlace=%s, loue=%s, photos=%s, type=%s, energie=%s, agence=%s]",
+						id, prixParJour, plaque, marque, modele, nbPlace, loue,
+						photos, type, energie, agence);
 	}
+
+	
 	
 	
 	

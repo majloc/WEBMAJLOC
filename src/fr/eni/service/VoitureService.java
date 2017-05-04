@@ -30,5 +30,12 @@ public List<Voiture> getAllByCritere(@QueryParam("criteres") String criteres){
 	return VoitureDAO.findAllCriteres(criteres);
 }
 
+@GET
+@Path("/statut")
+@Produces(MediaType.APPLICATION_JSON)
+public List<Voiture> getAllDispo(@QueryParam("loue") String statut){
+	return VoitureDAO.findByDispo(statut);
+}
+
 	
 }

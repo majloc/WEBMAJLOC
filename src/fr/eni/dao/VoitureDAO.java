@@ -18,7 +18,9 @@ import fr.eni.util.DAOUtil;
 
 public class VoitureDAO {
 	
-		public static List<Voiture> findAllCriteres(String criterelist){
+	public static List<Voiture> findAllCriteres(String criterelist){
+		
+		List<Voiture> voitures = new ArrayList<Voiture>();
 			
 		String[] criteres = criterelist.split(";");	
 		String reqBase = "SELECT v FROM Voiture v WHERE ";
@@ -78,8 +80,10 @@ public class VoitureDAO {
 			if (!("null".equals(criteres[4]))){
 				tqv.setParameter("immat", criteres[4]);
 			}
+						
+			voitures = tqv.getResultList();
 			
-			return tqv.getResultList();
+			return voitures;
 			
 	}
 		
@@ -91,6 +95,24 @@ public class VoitureDAO {
 				.createQuery(req, Voiture.class)
 				.getResultList();
 		
+	}
+	
+	// methode qui renvoie soit les véhicules loués soit les véhicules dispos selon le statut
+	public static List<Voiture> findByDispo(String statut){
+		
+		Boolean loue = false;
+		
+		if ("true".equals(statut)){
+			loue = true;
+		}
+	
+		String reqBase = "SELECT v FROM Voiture v WHERE loue = :loue ";
+		
+		return	DAOUtil.getEntityManager()
+				.createQuery(reqBase, Voiture.class)
+				.setParameter("loue", loue)
+				.getResultList();
+			
 	}
 	
 	
