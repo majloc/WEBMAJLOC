@@ -35,7 +35,7 @@ public class LocationDAO {
 		String reqBase = "SELECT l FROM Location l WHERE ";
 		
 		String critere="";		
-		if (("null".equals(criteres[0])) && ("null".equals(criteres[1])) && ("null".equals(criteres[2])) && ("null".equals(criteres[3]))){
+		if (("null".equals(criteres[0])) && ("null".equals(criteres[1])) && ("null".equals(criteres[2]))){
 			return LocationDAO.findAll();
 		}
 		
@@ -44,20 +44,17 @@ public class LocationDAO {
 				
 				switch (i) {
 					case 0 : 
-						critere = "nom";
+						critere = "client";
 						break;
 					case 1 : 
-						critere = "prenom";
+						critere = "voiture";
 						break;
 					case 2 : 
-						critere = "mail";
+						critere = "restitution";
 						break;
-					case 3 : 
-						critere = "tel";
-						break;	
 				}
 				
-				reqBase+= critere +" LIKE :" +critere; 
+				reqBase+= critere +" = :" +critere; 
 				if (i < criteres.length && !("null".equals(criteres[i+1]))){
 					reqBase+= " AND ";
 				}		
@@ -69,18 +66,18 @@ public class LocationDAO {
 			
 			
 			if (!("null".equals(criteres[0]))){
-				tqv.setParameter("nom", "%"+criteres[0]+"%");
+				Client client = ClientDAO.findById(Integer.parseInt(criteres[0]));
+				tqv.setParameter("client", client);
 			}
 			if (!("null".equals(criteres[1]))){
-				tqv.setParameter("prenom", "%"+criteres[1]+"%");
+				Voiture voiture = VoitureDAO.findById(Integer.parseInt(criteres[1]));
+				tqv.setParameter("voiture", voiture);
 			}
 			if (!("null".equals(criteres[2]))){
-				tqv.setParameter("mail", "%"+criteres[2]+"%");
+				Boolean restitution = "true".equals(criteres[2]) ? true : false;
+				tqv.setParameter("restitution", restitution);
 			}
-			if (!("null".equals(criteres[3]))){
-				tqv.setParameter("tel", "%"+criteres[3]+"%");
-			}
-						
+		
 			locations = tqv.getResultList();
 			
 			return locations;

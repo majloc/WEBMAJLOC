@@ -20,6 +20,7 @@ import fr.eni.bean.Agence;
 import fr.eni.bean.Energie;
 import fr.eni.bean.Type;
 import fr.eni.bean.Voiture;
+import fr.eni.dao.AgenceDAO;
 import fr.eni.dao.EnergieDAO;
 import fr.eni.dao.TypeDAO;
 import fr.eni.dao.VoitureDAO;
@@ -83,8 +84,7 @@ public String createVoiture(
 				listPhotos.add(photo);
 			}
 			newCar.setPhotos(listPhotos);
-			// TODO créer AgenceDAO.findByLibelle
-			//newCar.setAgence(AgenceDAO.findByLibelle);
+			newCar.setAgence(AgenceDAO.findByLibelle(agence));
 			newCar.setPrixParJour(Double.parseDouble(prixParJour));
 						
 			try {
@@ -97,53 +97,46 @@ public String createVoiture(
 			return result;
 	}
 
+@POST
+@Path("/modifcar")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+public String updateVoiture(
+		@FormParam("id") int id,
+		@FormParam("marque") String marque,
+		@FormParam("modele") String modele,
+		@FormParam("energie") String energie,
+		@FormParam("type") String type,
+		@FormParam("plaque") String plaque,
+		@FormParam("nbPlace") String nbPlace,
+		@FormParam("loue") String loue,
+		@FormParam("photos") String photos,
+		@FormParam("agence") String agence,
+		@FormParam("prixParJour") String prixParJour,
+		@Context HttpServletResponse servletResponse) throws IOException {
+			
+		// Chaine qui sera renvoyée si l'insertion s'est bien passée, OK ou KO
 
-//public String updateVoiture(
-//		@FormParam("id") int id,
-//		@FormParam("marque") String marque,
-//		@FormParam("modele") String modele,
-//		@FormParam("energie") String energie,
-//		@FormParam("type") String type,
-//		@FormParam("plaque") String plaque,
-//		@FormParam("nbPlace") String nbPlace,
-//		@FormParam("loue") String loue,
-//		@FormParam("photos") String photos,
-//		@FormParam("agence") String agence,
-//		@FormParam("prixParJour") String prixParJour,
-//		@Context HttpServletResponse servletResponse) throws IOException {
-//			
-//		// Chaine qui sera renvoyée si l'insertion s'est bien passée, OK ou KO
-//		String result =""; 
-//			int id, double prixParJour, String plaque, String marque,
-//				String modele, int nbPlace, boolean loue, List<String> photos,
-//				Type type, Energie energie, Agence agence;
-//			
-//			Voiture newCar = new Voiture(id, Double.parseDouble(prixParJour),plaque ,marque, 
-//					modele, Integer.parseInt(nbPlace),"true".equals(loue) ? true : false, 
-//					TypeDAO.findByLibelle(type),EnergieDAO.findByLibelle(energie), 
-//					newCar.setEnergie(EnergieDAO.findByLibelle(energie));
-//			newCar.setType(TypeDAO.findByLibelle(type));
-//			newCar.setPlaque(plaque);
-//			newCar.setNbPlace(Integer.parseInt(nbPlace));
-//			newCar.setLoue("true".equals(loue) ? true : false);
-//			String[] tabPhotos = photos.split(";");
-//			List<String> listPhotos = new ArrayList<String>();
-//			for (String photo : tabPhotos) {
-//				listPhotos.add(photo);
-//			}
-//			newCar.setPhotos(listPhotos);
-//			// TODO créer AgenceDAO.findByLibelle
-//			//newCar.setAgence(AgenceDAO.findByLibelle);
-//			newCar.setPrixParJour(Double.parseDouble(prixParJour));
-//						
-//			try {
-//				result = VoitureDAO.insert(newCar);
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//			
-//			return result;
-//	}
+			String result="";
+	
+			String[] tabPhotos = photos.split(";");
+			List<String> listPhotos = new ArrayList<String>();
+			for (String photo : tabPhotos) {
+				listPhotos.add(photo);
+			}
+			
+			Voiture modifCar = new Voiture(id, Double.parseDouble(prixParJour),plaque ,marque,					
+					modele, Integer.parseInt(nbPlace),"true".equals(loue) ? true : false,listPhotos, 
+					TypeDAO.findByLibelle(type),EnergieDAO.findByLibelle(energie), AgenceDAO.findByLibelle(agence));
+						
+			try {
+				result = VoitureDAO.update(modifCar);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return result;
+	}
 	
 }
