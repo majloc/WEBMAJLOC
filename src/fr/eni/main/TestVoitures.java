@@ -60,8 +60,8 @@ public class TestVoitures {
 		}
 		
 		// Agences
-		Agence a= new Agence("Barbier", "Mickael", "LocaWhaa", "majloc","majloc3","mb@gmail.com","0102030405",185956.74);
-		Agence a2= new Agence("Piron", "Axel", "LocaYeah", "majloc","majloc3","ap@gmail.com","0102030405",185956.74);
+		Agence a= new Agence("Barbier", "Mickael", "LocaWhaa", "majloc","majloc","mb@gmail.com","0102030405",185956.74);
+		Agence a2= new Agence("Piron", "Axel", "LocaYeah", "majloc2","majloc2","ap@gmail.com","0102030405",185956.74);
 		
 		try {
 			AgenceDAO.insert(a);

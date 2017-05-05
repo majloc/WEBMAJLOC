@@ -162,19 +162,56 @@ public class VoitureDAO {
 	}	
 	
 
-	public static void insert(Voiture v) throws Exception{
+	public static String insert(Voiture v) throws Exception{
+		
+		String result="";
+		
 		EntityManager em = DAOUtil.getEntityManager();
 		EntityTransaction et = em.getTransaction();
 		et.begin();
 		try {
 			em.persist(v);
 			et.commit();
+			result ="OK";
 		} catch (Exception e) {
 			et.rollback();
+			result ="KO";
 			throw e;
-		}
-		
+		}	
+		 return result;
 	}
+	
+	public static String update(Voiture v) throws Exception{
+		
+		String result="";
+		
+		Voiture vPersist = findById(v.getId());
+			vPersist.setMarque(v.getMarque());
+			vPersist.setModele(v.getModele());
+			vPersist.setPlaque(v.getPlaque());
+			vPersist.setNbPlace(v.getNbPlace());
+			vPersist.setPhotos(v.getPhotos());
+			vPersist.setPrixParJour(v.getPrixParJour());
+			vPersist.setType(v.getType());				
+			vPersist.setEnergie(v.getEnergie());
+			vPersist.setAgence(v.getAgence());
+			vPersist.setLoue(v.isLoue());
+		
+		EntityManager em = DAOUtil.getEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		try {
+			em.persist(vPersist);
+			et.commit();
+			result ="OK";
+		} catch (Exception e) {
+			et.rollback();
+			result ="KO";
+			throw e;
+		}	
+		 return result;
+	}	
+	
 	
 	
 	public static void remove(int id) throws Exception{

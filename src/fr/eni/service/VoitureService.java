@@ -1,6 +1,7 @@
 package fr.eni.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +16,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import fr.eni.bean.Agence;
+import fr.eni.bean.Energie;
+import fr.eni.bean.Type;
 import fr.eni.bean.Voiture;
+import fr.eni.dao.EnergieDAO;
+import fr.eni.dao.TypeDAO;
 import fr.eni.dao.VoitureDAO;
 
 @Path("/voiture")
@@ -43,20 +49,101 @@ public List<Voiture> getAllDispo(@QueryParam("loue") String statut){
 	return VoitureDAO.findByDispo(statut);
 }
 
+@POST
+@Path("/newcar")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+public String createVoiture(
+		@FormParam("marque") String marque,
+		@FormParam("modele") String modele,
+		@FormParam("energie") String energie,
+		@FormParam("type") String type,
+		@FormParam("plaque") String plaque,
+		@FormParam("nbPlace") String nbPlace,
+		@FormParam("loue") String loue,
+		@FormParam("photos") String photos,
+		@FormParam("agence") String agence,
+		@FormParam("prixParJour") String prixParJour,
+		@Context HttpServletResponse servletResponse) throws IOException {
+			
+		// Chaine qui sera renvoyée si l'insertion s'est bien passée, OK ou KO
+		String result =""; 
+	
+			Voiture newCar = new Voiture();
+			newCar.setMarque(marque);
+			newCar.setModele(modele);
+			newCar.setEnergie(EnergieDAO.findByLibelle(energie));
+			newCar.setType(TypeDAO.findByLibelle(type));
+			newCar.setPlaque(plaque);
+			newCar.setNbPlace(Integer.parseInt(nbPlace));
+			newCar.setLoue("true".equals(loue) ? true : false);
+			String[] tabPhotos = photos.split(";");
+			List<String> listPhotos = new ArrayList<String>();
+			for (String photo : tabPhotos) {
+				listPhotos.add(photo);
+			}
+			newCar.setPhotos(listPhotos);
+			// TODO créer AgenceDAO.findByLibelle
+			//newCar.setAgence(AgenceDAO.findByLibelle);
+			newCar.setPrixParJour(Double.parseDouble(prixParJour));
+						
+			try {
+				result = VoitureDAO.insert(newCar);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return result;
+	}
 
-//public List<Voiture> updateVoiture(
+
+//public String updateVoiture(
+//		@FormParam("id") int id,
 //		@FormParam("marque") String marque,
-//		@FormParam ("profession") String profession,
-//		@Context HttpServletResponse servletResponse) throws IOException{
-//		Voiture newCar = new Voiture();
-//		newCar
-//		
-//		int result = userDao.updateUser(user);
-//		if(result == 1){
-//		return SUCCESS_RESULT;
-//		}
-//		return FAILURE_RESULT;
-//}
-
+//		@FormParam("modele") String modele,
+//		@FormParam("energie") String energie,
+//		@FormParam("type") String type,
+//		@FormParam("plaque") String plaque,
+//		@FormParam("nbPlace") String nbPlace,
+//		@FormParam("loue") String loue,
+//		@FormParam("photos") String photos,
+//		@FormParam("agence") String agence,
+//		@FormParam("prixParJour") String prixParJour,
+//		@Context HttpServletResponse servletResponse) throws IOException {
+//			
+//		// Chaine qui sera renvoyée si l'insertion s'est bien passée, OK ou KO
+//		String result =""; 
+//			int id, double prixParJour, String plaque, String marque,
+//				String modele, int nbPlace, boolean loue, List<String> photos,
+//				Type type, Energie energie, Agence agence;
+//			
+//			Voiture newCar = new Voiture(id, Double.parseDouble(prixParJour),plaque ,marque, 
+//					modele, Integer.parseInt(nbPlace),"true".equals(loue) ? true : false, 
+//					TypeDAO.findByLibelle(type),EnergieDAO.findByLibelle(energie), 
+//					newCar.setEnergie(EnergieDAO.findByLibelle(energie));
+//			newCar.setType(TypeDAO.findByLibelle(type));
+//			newCar.setPlaque(plaque);
+//			newCar.setNbPlace(Integer.parseInt(nbPlace));
+//			newCar.setLoue("true".equals(loue) ? true : false);
+//			String[] tabPhotos = photos.split(";");
+//			List<String> listPhotos = new ArrayList<String>();
+//			for (String photo : tabPhotos) {
+//				listPhotos.add(photo);
+//			}
+//			newCar.setPhotos(listPhotos);
+//			// TODO créer AgenceDAO.findByLibelle
+//			//newCar.setAgence(AgenceDAO.findByLibelle);
+//			newCar.setPrixParJour(Double.parseDouble(prixParJour));
+//						
+//			try {
+//				result = VoitureDAO.insert(newCar);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
+//			return result;
+//	}
 	
 }
