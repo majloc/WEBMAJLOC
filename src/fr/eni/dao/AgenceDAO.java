@@ -74,10 +74,16 @@ public class AgenceDAO {
 		
 		String reqBase = " SELECT a FROM Agence a WHERE login=:login AND mdp=:mdp";
 		
-		return DAOUtil.getEntityManager().createQuery(reqBase,Agence.class).setParameter("login", login).setParameter("mdp", mdp).getSingleResult();
-		
-		
+		return DAOUtil.getEntityManager().createQuery(reqBase,Agence.class).setParameter("login", login).setParameter("mdp", mdp).getSingleResult();	
 	}
 	
 
+	public static Agence findByLibelle (String libelle){
+		
+		String reqBase = " SELECT a FROM Agence a WHERE agence=:agence";
+		
+		return DAOUtil.getEntityManager().createQuery(reqBase, Agence.class).setParameter("agence", libelle).getSingleResult();	
+	}
+	
+	
 }

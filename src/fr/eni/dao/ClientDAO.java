@@ -130,7 +130,30 @@ public class ClientDAO {
 	}
 
 
-
+	public static String update(Client c){
+	
+		String result="";
+		EntityManager em = DAOUtil.getEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		try {
+			Client client = findById(c.getId());
+			client.setAdresse(c.getAdresse());
+			client.setMail(c.getMail());
+			client.setNom(c.getNom());
+			client.setPrenom(c.getPrenom());
+			client.setTel(c.getTel());
+			et.commit();
+			result="OK";
+			
+		} catch (Exception e) {
+			et.rollback();
+			result="KO";
+			throw e;
+		}
+	
+		return result;
+	}
 	
 	
 }
