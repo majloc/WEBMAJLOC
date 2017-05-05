@@ -56,7 +56,6 @@ public String updateClient(
 	result = ClientDAO.update(c);
 	
 	return result;
-	
 }
 
 }
