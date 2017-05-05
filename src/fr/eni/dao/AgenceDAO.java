@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import fr.eni.bean.Agence;
+import fr.eni.bean.Voiture;
 import fr.eni.util.DAOUtil;
 
 
@@ -65,4 +66,18 @@ public class AgenceDAO {
 	}
 	
 	
+	public static Agence findAgenceByLoginMdp (String identification){
+		
+		String[] tabidentification = identification.split(";");	
+		String login = tabidentification[0];
+		String mdp = tabidentification[1];
+		
+		String reqBase = " SELECT a FROM Agence a WHERE login=:login AND mdp=:mdp";
+		
+		return DAOUtil.getEntityManager().createQuery(reqBase,Agence.class).setParameter("login", login).setParameter("mdp", mdp).getSingleResult();
+		
+		
+	}
+	
+
 }
